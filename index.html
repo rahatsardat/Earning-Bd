@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Income BD - Forward Marketing Platform</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #1abc9c, #16a085);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+    }
+    .banner {
+      background: #27ae60;
+      padding: 40px 20px;
+      text-align: center;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 15px rgba(39, 174, 96, 0.6);
+    }
+    .btn-custom {
+      background: #2ecc71;
+      border: none;
+      transition: 0.3s;
+      color: #fff;
+      font-weight: 600;
+    }
+    .btn-custom:hover {
+      background: #27ae60;
+      box-shadow: 0 0 15px #27ae60;
+      color: #fff;
+    }
+    .btn-custom:disabled {
+        background: #95a5a6;
+        cursor: not-allowed;
+    }
+    .dashboard-btns button {
+      margin: 10px;
+      min-width: 120px;
+      font-weight: 600;
+      box-shadow: 0 0 8px #2ecc71;
+      transition: 0.3s;
+    }
+    .dashboard-btns button:hover {
+      box-shadow: 0 0 20px #27ae60;
+      transform: scale(1.05);
+    }
+    .welcome-gif {
+      max-width: 100%;
+      height: 150px;
+      margin-bottom: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #27ae60;
+    }
+    .back-btn {
+      margin-bottom: 15px;
+    }
+    .banner-small {
+      background: #2ecc71;
+      padding: 10px 15px;
+      border-radius: 6px;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      text-align: center;
+      box-shadow: 0 0 8px #27ae60;
+    }
+    input, select, textarea {
+      border-radius: 8px;
+      border: 1px solid #27ae60;
+      padding: 10px;
+      font-size: 1rem;
+      background-color: rgba(255,255,255,0.9);
+      color: #333;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 8px #2ecc71;
+      border-color: #2ecc71;
+    }
+    .effect-glow {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #fff, 0 0 20px #2ecc71; }
+      to { text-shadow: 0 0 20px #fff, 0 0 30px #27ae60; }
+    }
+    .referral-link {
+      word-break: break-all;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      user-select: all;
+      cursor: pointer;
+      border: 1px dashed #2ecc71;
+    }
+    .history-table {
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      overflow-x: auto;
+    }
+    .progress {
+        background-color: rgba(0,0,0,0.2);
+    }
+    .progress-bar {
+        background-color: #2ecc71;
+    }
+    .card-custom {
+        background: rgba(0,0,0,0.2);
+        border: none;
+        border-radius: 12px;
+    }
+    .list-group-item-custom {
+        background-color: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.2);
+        color: #fff;
+    }
+    /* Scrollbar style */
+    ::-webkit-scrollbar { height: 6px; width: 6px; }
+    ::-webkit-scrollbar-track { background: #1e824c; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: #27ae60; border-radius: 10px; }
+  </style>
+</head>
+<body>
+
+<div class="container py-4" id="app">
+
+  <!-- SIGNUP PAGE -->
+  <section id="signup-page" class="d-none">
+    <div class="banner">
+      <h1 class="fw-bold">Income BD - সহজেই আয় করুন</h1>
+      <p class="lead">আপনার Gmail অথবা ফোন নম্বর দিয়ে সাইনআপ করুন এবং শুরু করুন আয়</p>
+    </div>
+
+    <form id="signup-form" class="mx-auto" style="max-width: 400px;">
+      <div class="mb-3">
+        <label for="signup-identifier" class="form-label">Gmail অথবা ফোন নম্বর</label>
+        <input type="text" class="form-control" id="signup-identifier" placeholder="Enter Gmail or Phone number" required>
+      </div>
+      <div class="mb-3">
+        <label for="signup-password" class="form-label">পাসওয়ার্ড (কমপক্ষে ৬ অক্ষরের)</label>
+        <input type="password" class="form-control" id="signup-password" placeholder="Password" minlength="6" required>
+      </div>
+      <button type="submit" class="btn btn-custom w-100">সাইনআপ করুন</button>
+    </form>
+
+    <p class="text-center mt-3">আপনার কি একাউন্ট আছে? <a href="#" id="go-to-login" class="text-light fw-bold">লগইন করুন</a></p>
+  </section>
+
+  <!-- LOGIN PAGE -->
+  <section id="login-page" class="d-none">
+    <div class="banner">
+      <h1 class="fw-bold">Income BD - লগইন করুন</h1>
+      <p class="lead">আপনার Gmail অথবা ফোন নম্বর দিয়ে লগইন করুন</p>
+    </div>
+
+    <form id="login-form" class="mx-auto" style="max-width: 400px;">
+      <div class="mb-3">
+        <label for="login-identifier" class="form-label">Gmail অথবা ফোন নম্বর</label>
+        <input type="text" class="form-control" id="login-identifier" placeholder="Enter Gmail or Phone number" required>
+      </div>
+      <div class="mb-3">
+        <label for="login-password" class="form-label">পাসওয়ার্ড</label>
+        <input type="password" class="form-control" id="login-password" placeholder="Password" minlength="6" required>
+      </div>
+      <button type="submit" class="btn btn-custom w-100">লগইন করুন</button>
+    </form>
+
+    <p class="text-center mt-3">নতুন? <a href="#" id="go-to-signup" class="text-light fw-bold">সাইনআপ করুন</a></p>
+  </section>
+
+  <!-- DASHBOARD PAGE -->
+  <section id="dashboard-page" class="d-none">
+    <div class="banner d-flex flex-column align-items-center">
+      <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" alt="Welcome" class="welcome-gif" />
+      <h2>স্বাগতম, <span id="user-name"></span>!</h2>
+      <p>আপনার প্ল্যাটফর্মে স্বাগতম। আয় করা শুরু করুন।</p>
+    </div>
+
+    <div class="d-flex justify-content-around flex-wrap dashboard-btns mb-3">
+      <button id="btn-balance" class="btn btn-custom">Balance</button>
+      <button id="btn-earn" class="btn btn-custom">Earn</button>
+      <button id="btn-level" class="btn btn-custom">Level</button>
+      <button id="btn-settings" class="btn btn-custom">Settings</button>
+      <button id="btn-history" class="btn btn-custom">Income History</button>
+      <button id="btn-logout" class="btn btn-danger">Logout</button>
+    </div>
+
+    <div id="dashboard-content" class="p-3 bg-success bg-opacity-10 rounded shadow-sm">
+      <!-- Content for each dashboard section will load here -->
+    </div>
+
+    <!-- Transaction list -->
+    <div class="mt-4 p-3 bg-dark bg-opacity-25 rounded" style="max-height: 250px; overflow-y: auto;">
+      <h5 class="text-white mb-3 text-center effect-glow">সাম্প্রতিক পেমেন্ট লিস্ট</h5>
+      <ul id="transaction-list" class="list-group list-group-flush">
+        <!-- Transactions will populate here -->
+      </ul>
+    </div>
+  </section>
+
+  <!-- LOADING / MESSAGE MODAL -->
+  <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-success text-white">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="messageModalLabel">Message</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modal-message"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Ads Scripts -->
+<script type='text/javascript' src='//amuletshaped.com/b8/20/47/b82047769b44808f5e3426d3821258f1.js'></script>
+<script type='text/javascript' src='//amuletshaped.com/8f/54/b3/8f54b3c58242532e370ba23b7a4eb5d8.js'></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  (() => {
+    // CONSTANTS
+    const STORAGE_KEY = 'incomeBD_users_v2';
+    const SESSION_KEY = 'incomeBD_session_v2';
+    const ADSTERRA_DIRECT_LINK = 'https://amuletshaped.com/xmy5jz0v?key=4bff42bbba1a2dd0e034d406ae638704';
+    const REFERRAL_BONUS_REFERRER = 30;
+    const REFERRAL_BONUS_NEW_USER = 50;
+    const WITHDRAW_MIN_BALANCE = 6000;
+    const WITHDRAW_MIN_REFERRALS = 30;
+
+    // DOM Elements
+    const allPages = document.querySelectorAll('section');
+    const signupPage = document.getElementById('signup-page');
+    const loginPage = document.getElementById('login-page');
+    const dashboardPage = document.getElementById('dashboard-page');
+    const signupForm = document.getElementById('signup-form');
+    const loginForm = document.getElementById('login-form');
+    const goToLogin = document.getElementById('go-to-login');
+    const goToSignup = document.getElementById('go-to-signup');
+    const userNameDisplay = document.getElementById('user-name');
+    const dashboardContent = document.getElementById('dashboard-content');
+    const transactionList = document.getElementById('transaction-list');
+    const messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
+    const modalMessage = document.getElementById('modal-message');
+
+    // APP STATE
+    let currentUser = null;
+    let users = getUsers();
+
+    // UTILITIES
+    function getUsers() { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    function setUsers(users) { localStorage.setItem(STORAGE_KEY, JSON.stringify(users)); }
+    function getSession() { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null'); }
+    function setSession(userId) { sessionStorage.setItem(SESSION_KEY, JSON.stringify(userId)); }
+    function clearSession() { sessionStorage.removeItem(SESSION_KEY); }
+    function generateId() { return '_' + Math.random().toString(36).substr(2, 9); }
+    function showPage(page) {
+        allPages.forEach(p => p.classList.add('d-none'));
+        page.classList.remove('d-none');
+    }
+    function showMessage(message, title = 'Message') {
+        document.getElementById('messageModalLabel').textContent = title;
+        modalMessage.innerHTML = message;
+        messageModal.show();
+    }
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            showMessage('রেফারেল লিঙ্ক কপি করা হয়েছে!', 'Copied');
+        });
+    }
+    function updateUser() {
+        if (!currentUser) return;
+        let allUsers = getUsers();
+        allUsers[currentUser.id] = currentUser;
+        setUsers(allUsers);
+    }
+    function addIncome(amount, type, description = '') {
+        const incomeRecord = {
+            date: new Date().toISOString(),
+            amount: amount,
+            type: type,
+            description: description
+        };
+        currentUser.balance += amount;
+        currentUser.incomeHistory.unshift(incomeRecord); // Add to beginning of array
+        updateUser();
+        
+        // Simulate 5% commission for referrer
+        if (currentUser.referredBy) {
+            let allUsers = getUsers();
+            const referrer = allUsers[currentUser.referredBy];
+            if (referrer) {
+                const commission = amount * 0.05;
+                referrer.balance += commission;
+                referrer.incomeHistory.unshift({
+                    date: new Date().toISOString(),
+                    amount: commission,
+                    type: 'Commission',
+                    description: `From ${currentUser.identifier.split('@')[0]}`
+                });
+                allUsers[referrer.id] = referrer;
+                setUsers(allUsers);
+            }
+        }
+    }
+
+    // FAKE GLOBAL TRANSACTIONS
+    function generateGlobalTransactions() {
+        const names = ['Rahim K.', 'Fatema A.', 'Jahid H.', 'Mitu C.', 'Sumon R.', 'Nipu S.', 'Tania B.', 'Rony M.', 'Hasan A.', 'Sumi K.'];
+        const list = transactionList;
+        list.innerHTML = '';
+        for (let i = 0; i < 20; i++) {
+            let name = names[Math.floor(Math.random() * names.length)];
+            let amount = (Math.floor(Math.random() * 45) + 5) * 10; // 50-500 Taka
+            let timeAgo = Math.floor(Math.random() * 59) + 1;
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item list-group-item-custom';
+            listItem.innerHTML = `<strong>${name}</strong> এইমাত্র <strong>৳${amount}</strong> পেমেন্ট পেয়েছেন। <span class="float-end text-white-50">${timeAgo} min ago</span>`;
+            list.appendChild(listItem);
+        }
+    }
+
+    // RENDER FUNCTIONS
+    function renderDashboardMain() {
+        const referralBonus = currentUser.level >= 21 ? 50 : REFERRAL_BONUS_REFERRER;
+        dashboardContent.innerHTML = `
+            <div class="card card-custom p-4 text-center">
+                <h3 class="effect-glow">আপনার বর্তমান ব্যালেন্স: ৳${currentUser.balance.toFixed(2)}</h3>
+                <p class="lead mt-3">আপনার রেফারেল সংখ্যা: ${currentUser.referrals.length} জন</p>
+                <p>আপনার বর্তমান লেভেল: ${currentUser.level}</p>
+                 <hr class="w-50 mx-auto" style="border-color: #2ecc71;">
+                <div>
+                  <h5>আপনার রেফারেল লিঙ্ক (ক্লিক করে কপি করুন)</h5>
+                  <p class="small">এই লিঙ্ক শেয়ার করে প্রতি রেফারে ৳${referralBonus} আয় করুন।</p>
+                  <div class="referral-link" title="Click to copy">${window.location.origin}${window.location.pathname}?ref=${currentUser.id}</div>
+                </div>
+            </div>`;
+        dashboardContent.querySelector('.referral-link').onclick = (e) => copyToClipboard(e.target.textContent);
+    }
+    
+    function renderEarn() {
+        const referralBonus = currentUser.level >= 21 ? 50 : REFERRAL_BONUS_REFERRER;
+        dashboardContent.innerHTML = `
+            <button class="btn btn-outline-light mb-3" id="back-to-dashboard">← ড্যাশবোর্ডে ফিরে যান</button>
+            <div class="card card-custom p-4">
+                <h3 class="text-center mb-4 effect-glow">টাকা আয় করুন</h3>
+                <div class="d-grid gap-3">
+                    <button class="btn btn-custom p-3" id="btn-watch-ad">
+                        <span class="fw-bold fs-5">Ads দেখুন ও আয় করুন</span><br>
+                        <small>প্রতিবার অ্যাডে ক্লিক করে কাজ করলে ৩ টাকা পাবেন।</small>
+                    </button>
+                    <button class="btn btn-custom p-3" id="btn-signup-task">
+                        <span class="fw-bold fs-5">সাইনআপ করে আয় করুন</span><br>
+                        <small>অফার ফলো করে সাইনআপ করলে ৫০ টাকা পর্যন্ত পাবেন।</small>
+                    </button>
+                </div>
+                <hr class="my-4" style="border-color: #2ecc71;">
+                <div class="text-center">
+                    <h5>রেফার করে আয় করুন</h5>
+                    <p>আপনার লিঙ্ক দিয়ে কেউ সাইনআপ করলে আপনি পাবেন <strong>৳${referralBonus}</strong> এবং নতুন ইউজার পাবেন <strong>৳${REFERRAL_BONUS_NEW_USER}</strong> বোনাস।</p>
+                    <p>আপনার রেফার করা ইউজারের আয়ের উপর আপনি <strong>৫% কমিশন</strong> পাবেন।</p>
+                    <div class="referral-link" title="Click to copy">${window.location.origin}${window.location.pathname}?ref=${currentUser.id}</div>
+                </div>
+            </div>`;
+
+        document.getElementById('back-to-dashboard').onclick = renderDashboardMain;
+        dashboardContent.querySelector('.referral-link').onclick = (e) => copyToClipboard(e.target.textContent);
+        
+        document.getElementById('btn-watch-ad').onclick = () => {
+            addIncome(3, 'Ad Click', 'Direct Link Ad');
+            showMessage('আপনার একাউন্টে ৳3 যোগ করা হয়েছে। এখন আপনাকে অ্যাডের পেজে নিয়ে যাওয়া হচ্ছে।', 'অভিনন্দন!');
+            window.open(ADSTERRA_DIRECT_LINK, '_blank');
+            renderDashboardMain(); // Go back to main dash to see updated balance
+        };
+        document.getElementById('btn-signup-task').onclick = () => {
+            addIncome(50, 'Signup Task', 'Direct Link Task');
+            showMessage('আপনার একাউন্টে ৳50 যোগ করা হয়েছে। এখন অফার পেজে যান এবং কাজটি সম্পন্ন করুন।', 'অভিনন্দন!');
+            window.open(ADSTERRA_DIRECT_LINK, '_blank');
+             renderDashboardMain();
+        };
+    }
+
+    function calculateLevel(referralCount) {
+        const level = Math.floor(referralCount / 5) + 1;
+        return Math.min(level, 21); // Cap at level 21
+    }
+
+    function renderLevel() {
+        currentUser.level = calculateLevel(currentUser.referrals.length);
+        updateUser();
+
+        const referralsForNextLevel = 5 - (currentUser.referrals.length % 5);
+        const progressPercent = ((5 - referralsForNextLevel) / 5) * 100;
+        
+        let levelInfo;
+        if (currentUser.level >= 21) {
+            levelInfo = `<p class="text-success fw-bold">অভিনন্দন! আপনি সর্বোচ্চ ২১ লেভেলে পৌঁছেছেন। এখন প্রতি রেফারেলে ৳50 পাবেন।</p>`;
+        } else {
+            levelInfo = `
+                <p>আপনার পরবর্তী লেভেলে (${currentUser.level + 1}) যেতে আরও <strong>${referralsForNextLevel}</strong> টি রেফারেল প্রয়োজন।</p>
+                <div class="progress mt-2 mb-3" style="height: 25px;">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${progressPercent}%" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">${progressPercent.toFixed(0)}%</div>
+                </div>
+            `;
+        }
+
+        dashboardContent.innerHTML = `
+            <button class="btn btn-outline-light mb-3" id="back-to-dashboard">← ড্যাশবোর্ডে ফিরে যান</button>
+            <div class="card card-custom p-4 text-center">
+                <h3 class="mb-4 effect-glow">আপনার লেভেল</h3>
+                <h1 class="display-1 fw-bold effect-glow">${currentUser.level}</h1>
+                <p class="lead">মোট রেফারেল: ${currentUser.referrals.length} টি</p>
+                <div class="banner-small my-3">
+                    ${levelInfo}
+                </div>
+                <p class="mt-3">লেভেল বাড়াতে বেশি বেশি রেফার করুন। প্রতি ৫টি রেফারে আপনার লেভেল ১ করে বাড়বে।</p>
+            </div>
+        `;
+        document.getElementById('back-to-dashboard').onclick = renderDashboardMain;
+    }
+    
+    function renderSettings() {
+        const canWithdraw = currentUser.balance >= WITHDRAW_MIN_BALANCE && currentUser.referrals.length >= WITHDRAW_MIN_REFERRALS;
+        let withdrawStatusMessage;
+        if (canWithdraw) {
+            withdrawStatusMessage = `<p class="text-success">আপনি টাকা উইথড্র করার জন্য প্রস্তুত।</p>`;
+        } else {
+            withdrawStatusMessage = `<p class="text-warning">টাকা উইথড্র করতে আপনার প্রয়োজন:</p>
+            <ul class="list-unstyled">
+                <li>${currentUser.balance >= WITHDRAW_MIN_BALANCE ? '✅' : '❌'} মিনিমাম ব্যালেন্স ৳${WITHDRAW_MIN_BALANCE} (আপনার আছে ৳${currentUser.balance.toFixed(2)})</li>
+                <li>${currentUser.referrals.length >= WITHDRAW_MIN_REFERRALS ? '✅' : '❌'} মিনিমাম রেফারেল ${WITHDRAW_MIN_REFERRALS} জন (আপনার আছে ${currentUser.referrals.length} জন)</li>
+            </ul>`;
+        }
+
+        dashboardContent.innerHTML = `
+            <button class="btn btn-outline-light mb-3" id="back-to-dashboard">← ড্যাশবোর্ডে ফিরে যান</button>
+            <div class="card card-custom p-4">
+                <h3 class="text-center mb-4 effect-glow">সেটিংস</h3>
+                
+                <!-- Payment Section -->
+                <div class="card card-custom p-3 mb-4">
+                    <h5 class="mb-3">পেমেন্ট অপশন</h5>
+                    ${withdrawStatusMessage}
+                    <form id="withdraw-form">
+                        <div class="mb-3">
+                           <label for="payment-method" class="form-label">পেমেন্ট মেথড</label>
+                           <select id="payment-method" class="form-select" ${!canWithdraw ? 'disabled' : ''}>
+                               <option>Bkash</option>
+                               <option>Nagad</option>
+                           </select>
+                        </div>
+                        <div class="mb-3">
+                           <label for="account-number" class="form-label">একাউন্ট নম্বর</label>
+                           <input type="text" id="account-number" class="form-control" placeholder="e.g., 017..." ${!canWithdraw ? 'disabled' : ''} required>
+                        </div>
+                        <div class="mb-3">
+                           <label for="amount" class="form-label">টাকার পরিমাণ</label>
+                           <input type="number" id="amount" class="form-control" value="${currentUser.balance.toFixed(2)}" ${!canWithdraw ? 'disabled' : ''} required>
+                        </div>
+                        <button type="submit" class="btn btn-custom w-100" ${!canWithdraw ? 'disabled' : ''}>উইথড্র করুন</button>
+                    </form>
+                </div>
+
+                <!-- Profile Update Section -->
+                <div class="card card-custom p-3">
+                    <h5 class="mb-3">প্রোফাইল আপডেট</h5>
+                    <form id="profile-update-form">
+                        <div class="mb-3">
+                           <label for="profile-name" class="form-label">আপনার নাম (Identifier)</label>
+                           <input type="text" id="profile-name" class="form-control" value="${currentUser.identifier}" required>
+                        </div>
+                        <div class="mb-3">
+                           <label for="profile-password" class="form-label">নতুন পাসওয়ার্ড (খালি রাখলে পরিবর্তন হবে না)</label>
+                           <input type="password" id="profile-password" class="form-control" minlength="6">
+                        </div>
+                        <button type="submit" class="btn btn-custom w-100">আপডেট করুন</button>
+                    </form>
+                </div>
+            </div>`;
+            
+        document.getElementById('back-to-dashboard').onclick = renderDashboardMain;
+        
+        document.getElementById('profile-update-form').onsubmit = (e) => {
+            e.preventDefault();
+            const newName = document.getElementById('profile-name').value;
+            const newPassword = document.getElementById('profile-password').value;
+
+            if (newName) currentUser.identifier = newName;
+            if (newPassword && newPassword.length >= 6) currentUser.password = newPassword;
+            
+            updateUser();
+            userNameDisplay.textContent = currentUser.identifier.split('@')[0];
+            showMessage('আপনার প্রোফাইল সফলভাবে আপডেট করা হয়েছে।', 'সফল!');
+        };
+
+        document.getElementById('withdraw-form').onsubmit = (e) => {
+            e.preventDefault();
+            showMessage('আপনার উইথড্র রিকোয়েস্ট গ্রহণ করা হয়েছে। ২৪-৪৮ ঘণ্টার মধ্যে পেমেন্ট সম্পন্ন হবে।', 'রিকোয়েস্ট সফল');
+            // In a real app, this would be processed. Here we just show a message.
+        };
+    }
+    
+    function renderHistory() {
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+        const sevenDaysAgo = today - (6 * 24 * 60 * 60 * 1000);
+        const thirtyDaysAgo = today - (29 * 24 * 60 * 60 * 1000);
+
+        const historyToday = currentUser.incomeHistory.filter(item => new Date(item.date).getTime() >= today);
+        const history7Days = currentUser.incomeHistory.filter(item => new Date(item.date).getTime() >= sevenDaysAgo);
+        const history30Days = currentUser.incomeHistory.filter(item => new Date(item.date).getTime() >= thirtyDaysAgo);
+        
+        const renderTable = (historyData) => {
+            if (historyData.length === 0) return '<p class="text-center">এই সময়ের মধ্যে কোনো আয় হয়নি।</p>';
+            let table = `<div class="table-responsive history-table p-2"><table class="table table-dark table-striped"><thead><tr><th>তারিখ</th><th>আয়ের উৎস</th><th>টাকা</th></tr></thead><tbody>`;
+            historyData.forEach(item => {
+                table += `<tr>
+                    <td>${new Date(item.date).toLocaleDateString('bn-BD')}</td>
+                    <td>${item.type}</td>
+                    <td>৳${item.amount.toFixed(2)}</td>
+                </tr>`;
+            });
+            table += `</tbody></table></div>`;
+            return table;
+        };
+
+        dashboardContent.innerHTML = `
+            <button class="btn btn-outline-light mb-3" id="back-to-dashboard">← ড্যাশবোর্ডে ফিরে যান</button>
+            <div class="card card-custom p-4">
+                <h3 class="text-center mb-4 effect-glow">ইনকাম হিস্ট্রি</h3>
+                <div class="d-flex justify-content-center mb-3">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-custom active" data-history="today">আজকের আয়</button>
+                        <button type="button" class="btn btn-custom" data-history="7days">গত ৭ দিন</button>
+                        <button type="button" class="btn btn-custom" data-history="30days">গত ৩০ দিন</button>
+                    </div>
+                </div>
+                <div id="history-content">
+                    ${renderTable(historyToday)}
+                </div>
+            </div>`;
+        
+        document.getElementById('back-to-dashboard').onclick = renderDashboardMain;
+
+        const historyButtons = dashboardContent.querySelectorAll('.btn-group .btn');
+        historyButtons.forEach(btn => {
+            btn.onclick = (e) => {
+                historyButtons.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                const period = e.target.getAttribute('data-history');
+                let data;
+                if (period === 'today') data = historyToday;
+                else if (period === '7days') data = history7Days;
+                else data = history30Days;
+                document.getElementById('history-content').innerHTML = renderTable(data);
+            };
+        });
+    }
+
+    // EVENT HANDLERS
+    function handleSignup(e) {
+        e.preventDefault();
+        const identifier = document.getElementById('signup-identifier').value.trim();
+        const password = document.getElementById('signup-password').value;
+
+        if (!identifier || !password) {
+            showMessage('অনুগ্রহ করে সকল তথ্য পূরণ করুন।', 'ত্রুটি');
+            return;
+        }
+
+        let allUsers = getUsers();
+        if (Object.values(allUsers).some(user => user.identifier === identifier)) {
+            showMessage('এই Gmail বা ফোন নম্বর দিয়ে ইতিমধ্যে একাউন্ট খোলা আছে।', 'ত্রুটি');
+            return;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const refId = urlParams.get('ref');
+        
+        const newUser = {
+            id: generateId(),
+            identifier: identifier,
+            password: password, // In a real app, this should be hashed
+            balance: 0,
+            level: 1,
+            referrals: [],
+            incomeHistory: [],
+            referredBy: refId || null
+        };
+
+        // Add referral bonus
+        if (refId && allUsers[refId]) {
+            const referrer = allUsers[refId];
+            const referrerBonus = calculateLevel(referrer.referrals.length) >= 21 ? 50 : REFERRAL_BONUS_REFERRER;
+            
+            // Add bonus to referrer
+            referrer.balance += referrerBonus;
+            referrer.referrals.push(newUser.id);
+            referrer.level = calculateLevel(referrer.referrals.length); // Update referrer level
+            referrer.incomeHistory.unshift({
+                date: new Date().toISOString(),
+                amount: referrerBonus,
+                type: 'Referral Bonus',
+                description: `For ${newUser.identifier.split('@')[0]}`
+            });
+            
+            // Add bonus to new user
+            newUser.balance += REFERRAL_BONUS_NEW_USER;
+            newUser.incomeHistory.unshift({
+                date: new Date().toISOString(),
+                amount: REFERRAL_BONUS_NEW_USER,
+                type: 'Signup Bonus',
+                description: 'Welcome bonus via referral'
+            });
+
+            allUsers[refId] = referrer;
+        } else {
+            // Standard welcome bonus if no referral
+             newUser.balance += 10; // Smaller bonus without referral
+             newUser.incomeHistory.unshift({
+                date: new Date().toISOString(),
+                amount: 10,
+                type: 'Signup Bonus',
+                description: 'Welcome bonus'
+            });
+        }
+
+        allUsers[newUser.id] = newUser;
+        setUsers(allUsers);
+        loginUser(newUser);
+        showMessage('সাইনআপ সফল হয়েছে! আপনাকে ড্যাশবোর্ডে নিয়ে যাওয়া হচ্ছে।', 'স্বাগতম!');
+    }
+
+    function handleLogin(e) {
+        e.preventDefault();
+        const identifier = document.getElementById('login-identifier').value.trim();
+        const password = document.getElementById('login-password').value;
+
+        const allUsers = getUsers();
+        const user = Object.values(allUsers).find(u => u.identifier === identifier && u.password === password);
+
+        if (user) {
+            loginUser(user);
+        } else {
+            showMessage('ভুল Gmail/ফোন নম্বর অথবা পাসওয়ার্ড।', 'লগইন ব্যর্থ');
+        }
+    }
+    
+    function loginUser(user) {
+        currentUser = user;
+        // Recalculate level on login to ensure it's up to date
+        currentUser.level = calculateLevel(currentUser.referrals.length);
+        updateUser(); 
+        
+        setSession(user.id);
+        userNameDisplay.textContent = currentUser.identifier.split('@')[0];
+        showPage(dashboardPage);
+        renderDashboardMain();
+        generateGlobalTransactions();
+    }
+
+    function handleLogout() {
+        currentUser = null;
+        clearSession();
+        showPage(loginPage);
+        loginForm.reset();
+        signupForm.reset();
+    }
+
+    // INITIALIZATION
+    function init() {
+        // Page navigation
+        goToLogin.onclick = (e) => { e.preventDefault(); showPage(loginPage); };
+        goToSignup.onclick = (e) => { e.preventDefault(); showPage(signupPage); };
+        
+        // Form submissions
+        signupForm.onsubmit = handleSignup;
+        loginForm.onsubmit = handleLogin;
+        
+        // Dashboard button clicks
+        document.getElementById('btn-logout').onclick = handleLogout;
+        document.getElementById('btn-balance').onclick = renderDashboardMain;
+        document.getElementById('btn-earn').onclick = renderEarn;
+        document.getElementById('btn-level').onclick = renderLevel;
+        document.getElementById('btn-settings').onclick = renderSettings;
+        document.getElementById('btn-history').onclick = renderHistory;
+
+        // Check for existing session
+        const sessionId = getSession();
+        if (sessionId && users[sessionId]) {
+            loginUser(users[sessionId]);
+        } else {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('ref')) {
+                showPage(signupPage);
+            } else {
+                showPage(loginPage);
+            }
+        }
+    }
+
+    // Run the app
+    init();
+
+  })();
+</script>
+
+</body>
+</html>
